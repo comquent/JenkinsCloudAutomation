@@ -9,24 +9,24 @@ import com.amazonaws.services.ec2.model.DescribeInstancesResult
 import com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials
 import com.cloudbees.plugins.credentials.CredentialsProvider
 
-def client
+def setCredential(value) {
+	credential = value
+}
 
-def initClient(credential) {
-	echo "start init client"
+def getClient() {
     withCredentials([
         usernamePassword(credentialsId: credential, usernameVariable: 'accessKey', passwordVariable: 'secretAccessKey')
     ]) {
 
 		def credentials = new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretAccessKey))
-		client = AmazonEC2ClientBuilder.standard().withCredentials(credentials).build()
+		return AmazonEC2ClientBuilder.standard().withCredentials(credentials).build()
 	}
-	echo "finish init client"
 }
 
 def listInstances() {
 	DescribeInstancesRequest request = new DescribeInstancesRequest()
 
-	DescribeInstancesResult result = client.describeInstances(request)
+	DescribeInstancesResult result = getClient().describeInstances(request)
 	result.reservations.each{
 		it.instances.each{
 			echo it.instanceId
