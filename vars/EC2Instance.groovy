@@ -24,16 +24,36 @@ def setImageId(value) {
 	imageId = value
 }
 
+def withImageId(value) {
+	imageId = value
+	return this
+}
+
 def setKeyName(value) {
 	keyName = value
+}
+
+def withKeyName(value) {
+	keyName = value
+	return this
 }
 
 def setSecGroup(value) {
 	secGroup = value
 }
 
+def withSecGroup(value) {
+	secGroup = value
+	return this
+}
+
 def setInstanceType(value) {
 	instanceType = value
+}
+
+def withInstanceType(value) {
+	instanceType = value
+	return this
 }
 
 def getClient() {
