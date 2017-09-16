@@ -173,3 +173,32 @@ def terminateInstances(instanceIds) {
 		echo "Terminating instance ID ${it.instanceId} has been triggered"
 	}
 }
+
+def waitInstances(instanceIds, state) {
+    timeout(5) {
+        waitUntil {
+			def states = []
+			DescribeInstancesRequest request = new DescribeInstancesRequest()
+			request.setInstanceIds(instanceIds)
+			DescribeInstancesResult result = getClient().describeInstances(request)
+			result.reservations.each{
+				it.instances.each{
+					echo "... State: ${it.state.name} (${it.state.code})"
+					states << it.state
+				}
+			}
+			sum_state = state
+			states.each{
+				if (it.code != state) {
+					sum_state = it.code
+				}
+			}
+			if(sum_state == state) {
+				return true
+			}
+			sleep(time: 5)
+			return false
+		}
+	}
+
+}
