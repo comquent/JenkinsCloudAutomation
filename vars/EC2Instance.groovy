@@ -86,11 +86,24 @@ def launchEC2Instance() {
 	return result.reservation.instances.first().instanceId
 }
 
-def getPublicDnsName(instanceId) {	
-	DescribeInstancesRequest request = new DescribeInstancesRequest()
-    request.setInstanceIds([instanceId])
-	DescribeInstancesResult result = getClient().describeInstances(request)
-	return result.reservations.first().instances.first().publicDnsName
+def getPublicDnsName(instanceId) {
+    def publicDnsName
+    timeout(5) {
+        waitUntil {
+			DescribeInstancesRequest request = new DescribeInstancesRequest()
+			request.setInstanceIds([instanceId])
+			DescribeInstancesResult result = getClient().describeInstances(request)
+			instance = result.reservations.first().instances.first() 
+			publicDnsName = instance.publicDnsName
+			state = instance.state
+            echo "... State: ${state.name} (${state.code})"
+			if (state.code == 16) {
+                return true
+			}
+			sleep(time: 5)
+		}
+	}
+	return publicDnsName
 }
 
 def terminate(id) {
