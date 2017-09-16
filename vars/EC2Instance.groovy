@@ -38,9 +38,9 @@ def listInstances() {
 def launchEC2Instance(imageId, instanceType = "t2.nano", keyName, secGroup) {
 	echo "Launch Instance"
 	RunInstancesRequest request = new RunInstancesRequest()
-		runInstancesRequest.withImageId(imageId).withInstanceType(instanceType)
-            .withMinCount(1).withMaxCount(1)
-            .withKeyName(keyName).withSecurityGroups([secGroup])
+	request.withImageId(imageId).withInstanceType(instanceType)
+		.withMinCount(1).withMaxCount(1)
+		.withKeyName(keyName).withSecurityGroups([secGroup])
 
 	RunInstancesResult result = getClient().runInstances(request)
 	return result.reservation.instances.first().instanceId
