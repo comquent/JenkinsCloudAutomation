@@ -20,7 +20,8 @@ def listInstances(credential) {
 		DescribeInstancesRequest request = new DescribeInstancesRequest()
 		
 		DescribeInstancesResult result = client.describeInstances(request)
-		
-		echo result.reservations.size
+		result.reservations.each{	
+			echo 'bla'
+		}
 	}
 }
