@@ -14,7 +14,6 @@ def listInstances(credential) {
     ]) {
 		echo accessKey
 		def credentials = new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretAccessKey))
-		echo credentials
 		def client= AmazonEC2ClientBuilder.standard().withCredentials(credentials).build()
 		DescribeInstancesRequest request = new DescribeInstancesRequest()
 		
