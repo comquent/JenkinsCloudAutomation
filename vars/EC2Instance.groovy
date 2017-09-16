@@ -64,7 +64,7 @@ def getClient() {
     ]) {
 
 		def credentials = new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretAccessKey))
-		return AmazonEC2ClientBuilder.standard().withCredentials(credentials).withRegion("us-west-2").build()
+		return AmazonEC2ClientBuilder.standard().withCredentials(credentials).build()
 	}
 }
 
