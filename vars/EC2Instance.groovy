@@ -131,6 +131,7 @@ def getPublicDnsNames(instanceIds) {
 			DescribeInstancesResult result = getClient().describeInstances(request)
 			result.reservations.each{
 				it.instances.each{
+					echo "... State: ${it.state.name} (${it.state.code})"
 					states << it.state
 				}
 			}
