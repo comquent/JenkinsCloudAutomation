@@ -135,18 +135,22 @@ def getPublicDnsNames(instanceIds) {
 					states << it.state
 				}
 			}
+			sum_state = 16
 			states.each{
 				if (it.code == 0) {
-					sleep(time: 5)
-					return false
+					sum_state = 0
 				}
 			}
-			result.reservations.each{
-				it.instances.each{
-					publicDnsNames << it.publicDnsName
+			if(sum_state == 16) {
+				result.reservations.each{
+					it.instances.each{
+						publicDnsNames << it.publicDnsName
+					}
 				}
+				return true
 			}
-			return true
+			sleep(time: 5)
+			return false
 		}
 	}
 	return publicDnsNames
