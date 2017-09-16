@@ -21,8 +21,8 @@ def listInstances(credential) {
 		
 		DescribeInstancesResult result = client.describeInstances(request)
 		result.reservations.each{
-			instances.each{
-				echo instanceId
+			it.instances.each{
+				echo it.instanceId
 			}
 		}
 	}
