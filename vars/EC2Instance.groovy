@@ -156,5 +156,18 @@ def getPublicDnsNames(instanceIds) {
 	return publicDnsNames
 }
 
-def terminate(id) {
+def terminateInstance(instanceId) {
+    TerminateInstancesRequest request = new TerminateInstancesRequest([instanceId])
+    TerminateInstancesResult result = getClient().terminateInstances(request)	
+    result.terminatingInstances.each{
+		echo "Terminating instance ID ${it.instanceId} has been triggered"
+	}
+}
+
+def terminateInstances(instanceIds) {
+    TerminateInstancesRequest request = new TerminateInstancesRequest(instanceIds)
+    TerminateInstancesResult result = getClient().terminateInstances(request)	
+    result.terminatingInstances.each{
+		echo "Terminating instance ID ${it.instanceId} has been triggered"
+	}
 }
