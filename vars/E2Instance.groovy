@@ -7,10 +7,10 @@ import com.amazonaws.services.ec2.model.DescribeInstancesResult
 import com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials
 import com.cloudbees.plugins.credentials.CredentialsProvider
 
-def listInstances() {
+def listInstances(credentials) {
 
     withCredentials([
-        usernamePassword(credentialsId: params.credentials, usernameVariable: 'accessKey', passwordVariable: 'secretAccessKey')
+        usernamePassword(credentialsId: credentials, usernameVariable: 'accessKey', passwordVariable: 'secretAccessKey')
     ]) {
 
 		def credentials = new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretAccessKey))
