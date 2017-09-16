@@ -86,7 +86,7 @@ def launchEC2Instance() {
 	return result.reservation.instances.first().instanceId
 }
 
-def getPublicDnsName(id) {	
+def getPublicDnsName(instanceId) {	
 	DescribeInstancesRequest request = new DescribeInstancesRequest()
     request.setInstanceIds([instanceId])
 	DescribeInstancesResult result = getClient().describeInstances(request)
