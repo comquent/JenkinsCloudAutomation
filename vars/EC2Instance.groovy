@@ -11,20 +11,17 @@ import com.cloudbees.plugins.credentials.CredentialsProvider
 
 def setCredential(value) {
 	credential = value
-}
 
-def getAWSClient() {
     withCredentials([
         usernamePassword(credentialsId: credential, usernameVariable: 'accessKey', passwordVariable: 'secretAccessKey')
     ]) {
 
 		def credentials = new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretAccessKey))
-		return AmazonEC2ClientBuilder.standard().withCredentials(credentials).build()
+		client = AmazonEC2ClientBuilder.standard().withCredentials(credentials).build()
 	}
 }
 
 def listInstances() {
-	def client= getAWSClient()
 	DescribeInstancesRequest request = new DescribeInstancesRequest()
 
 	DescribeInstancesResult result = client.describeInstances(request)
