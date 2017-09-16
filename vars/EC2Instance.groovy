@@ -13,25 +13,31 @@ def setCredential(value) {
 	credential = value
 }
 
-def listInstances() {
+def getAWSClient() {
     withCredentials([
         usernamePassword(credentialsId: credential, usernameVariable: 'accessKey', passwordVariable: 'secretAccessKey')
     ]) {
 
 		def credentials = new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretAccessKey))
-		def client= AmazonEC2ClientBuilder.standard().withCredentials(credentials).build()
-		DescribeInstancesRequest request = new DescribeInstancesRequest()
-	
-		DescribeInstancesResult result = client.describeInstances(request)
-		result.reservations.each{
-			it.instances.each{
-				echo it.instanceId
-			}
+		return AmazonEC2ClientBuilder.standard().withCredentials(credentials).build()
+	}
+}
+
+def listInstances() {
+	def client= getAWSClient()
+	DescribeInstancesRequest request = new DescribeInstancesRequest()
+
+	DescribeInstancesResult result = client.describeInstances(request)
+	result.reservations.each{
+		it.instances.each{
+			echo it.instanceId
 		}
 	}
 }
 
 def launchEC2Instance() {
+	echo "Launch Instance"
+	
 	return "DRAFT"
 }
 
