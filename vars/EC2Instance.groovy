@@ -15,6 +15,10 @@ def setCredential(value) {
 	credential = value
 }
 
+def setImageId(value) {}
+	imageId = value
+}
+
 def getClient() {
     withCredentials([
         usernamePassword(credentialsId: credential, usernameVariable: 'accessKey', passwordVariable: 'secretAccessKey')
@@ -35,7 +39,7 @@ def listInstances() {
 	}
 }
 
-def launchEC2Instance(imageId, instanceType = "t2.nano", keyName, secGroup) {
+def launchEC2Instance(instanceType = "t2.nano", keyName, secGroup) {
 	echo "Launch Instance, imageId = " + imageId
 	RunInstancesRequest request = new RunInstancesRequest()
 	request.withImageId(imageId).withInstanceType(instanceType)
