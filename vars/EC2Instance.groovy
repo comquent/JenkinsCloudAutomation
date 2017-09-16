@@ -101,6 +101,7 @@ def getPublicDnsName(instanceId) {
                 return true
 			}
 			sleep(time: 5)
+			return false
 		}
 	}
 	return publicDnsName
