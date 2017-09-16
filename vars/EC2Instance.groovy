@@ -15,8 +15,25 @@ def setCredential(value) {
 	credential = value
 }
 
+def withCredential(value) {
+	credential = value
+	return this
+}
+
 def setImageId(value) {
 	imageId = value
+}
+
+def setKeyName(value) {
+	keyName = value
+}
+
+def setSecGroup(value) {
+	secGroup = value
+}
+
+def setInstanceType(value) {
+	instanceType = value
 }
 
 def getClient() {
@@ -39,8 +56,7 @@ def listInstances() {
 	}
 }
 
-def launchEC2Instance(instanceType = "t2.nano", keyName, secGroup) {
-	echo "Launch Instance, imageId = " + imageId
+def launchEC2Instance() {
 	RunInstancesRequest request = new RunInstancesRequest()
 	request.withImageId(imageId).withInstanceType(instanceType)
 		.withMinCount(1).withMaxCount(1)
