@@ -30,3 +30,14 @@ def listInstances() {
 		}
 	}
 }
+
+def launchEC2Instance() {
+	return 'DRAFT'
+}
+
+def getIpAdress(id) {
+	return 'DRAFT'
+}
+
+def terminate(id) {
+}
