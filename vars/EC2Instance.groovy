@@ -25,7 +25,6 @@ def getClient() {
 
 def listInstances() {
 	DescribeInstancesRequest request = new DescribeInstancesRequest()
-
 	DescribeInstancesResult result = getClient().describeInstances(request)
 	result.reservations.each{
 		it.instances.each{
@@ -34,10 +33,15 @@ def listInstances() {
 	}
 }
 
-def launchEC2Instance() {
+def launchEC2Instance(imageId, instanceType = "t2.nano", keyName, secGroup) {
 	echo "Launch Instance"
-	
-	return "DRAFT"
+	RunInstancesRequest request = new RunInstancesRequest()
+		runInstancesRequest.withImageId(imageId).withInstanceType(instanceType)
+            .withMinCount(1).withMaxCount(1)
+            .withKeyName(keyName).withSecurityGroups([secGroup])
+
+	RunInstancesResult result = getClient().runInstances(request)
+	return result.reservation.instances.first().instanceId
 }
 
 def getIpAdress(id) {
