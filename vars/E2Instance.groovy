@@ -10,7 +10,7 @@ def listInstances() {
     def client= AmazonEC2ClientBuilder.standard().withCredentials(credentials).build()
 	DescribeInstancesRequest request = new DescribeInstancesRequest()
 	
-	RunInstancesResult result = client.runInstances(request)
+	DescribeInstancesResult result = client.describeInstances(request)
 	
 	echo result
 }
