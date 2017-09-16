@@ -17,11 +17,11 @@ def listInstances() {
     withCredentials([
         usernamePassword(credentialsId: credential, usernameVariable: 'accessKey', passwordVariable: 'secretAccessKey')
     ]) {
-		echo accessKey
+
 		def credentials = new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretAccessKey))
 		def client= AmazonEC2ClientBuilder.standard().withCredentials(credentials).build()
 		DescribeInstancesRequest request = new DescribeInstancesRequest()
-		
+	
 		DescribeInstancesResult result = client.describeInstances(request)
 		result.reservations.each{
 			it.instances.each{
