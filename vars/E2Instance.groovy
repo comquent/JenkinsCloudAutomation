@@ -9,8 +9,11 @@ import com.amazonaws.services.ec2.model.DescribeInstancesResult
 import com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials
 import com.cloudbees.plugins.credentials.CredentialsProvider
 
-def listInstances(credential) {
+def setCredential(value) {
+	credential = value
+}
 
+def listInstances() {
     withCredentials([
         usernamePassword(credentialsId: credential, usernameVariable: 'accessKey', passwordVariable: 'secretAccessKey')
     ]) {
