@@ -121,5 +121,35 @@ def getPublicDnsName(instanceId) {
 	return publicDnsName
 }
 
+def getPublicDnsNames(instanceIds) {
+    def publicDnsNames = []
+    timeout(5) {
+        waitUntil {
+			def states = []
+			DescribeInstancesRequest request = new DescribeInstancesRequest()
+			request.setInstanceIds(instanceIds)
+			DescribeInstancesResult result = getClient().describeInstances(request)
+			result.reservations.each{
+				it.instances.each{
+					states << it.state
+				}
+			}
+			states.each{
+				if (state.code == 0) {
+					sleep(time: 5)
+					return false
+				}
+			}
+			result.reservations.each{
+				it.instances.each{
+					publicDnsNames << it.publicDnsName
+				}
+			}
+			return true
+		}
+	}
+	return publicDnsNames
+}
+
 def terminate(id) {
 }
