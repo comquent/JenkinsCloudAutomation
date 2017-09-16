@@ -9,6 +9,8 @@ import com.amazonaws.services.ec2.model.DescribeInstancesResult
 import com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials
 import com.cloudbees.plugins.credentials.CredentialsProvider
 
+def client
+
 def setCredential(value) {
 	credential = value
 
