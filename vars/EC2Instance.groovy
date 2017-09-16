@@ -86,8 +86,11 @@ def launchEC2Instance() {
 	return result.reservation.instances.first().instanceId
 }
 
-def getIpAdress(id) {
-	return "DRAFT"
+def getPublicDnsName(id) {	
+	DescribeInstancesRequest describeInstancesRequest = new DescribeInstancesRequest()
+    request.setInstanceIds([instanceId])
+	DescribeInstancesResult result = getClient().describeInstances(request)
+	return result.reservations.first().instances.first().publicDnsName
 }
 
 def terminate(id) {
