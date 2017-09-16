@@ -19,6 +19,6 @@ def listInstances(credential) {
 		
 		DescribeInstancesResult result = client.describeInstances(request)
 		
-		echo result
+		echo result.reservations.size
 	}
 }
