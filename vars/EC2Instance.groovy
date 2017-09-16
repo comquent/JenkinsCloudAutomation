@@ -11,9 +11,7 @@ import com.cloudbees.plugins.credentials.CredentialsProvider
 
 def client
 
-def setCredential(value) {
-	credential = value
-
+def initClient(credential) {
     withCredentials([
         usernamePassword(credentialsId: credential, usernameVariable: 'accessKey', passwordVariable: 'secretAccessKey')
     ]) {
