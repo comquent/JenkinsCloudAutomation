@@ -32,11 +32,11 @@ def listInstances() {
 }
 
 def launchEC2Instance() {
-	return 'DRAFT'
+	return "DRAFT"
 }
 
 def getIpAdress(id) {
-	return 'DRAFT'
+	return "DRAFT"
 }
 
 def terminate(id) {
