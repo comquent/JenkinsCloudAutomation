@@ -86,6 +86,20 @@ def launchEC2Instance() {
 	return result.reservation.instances.first().instanceId
 }
 
+def launchEC2Instances(count) {
+	def instanceIds = []
+	RunInstancesRequest request = new RunInstancesRequest()
+	request.withImageId(imageId).withInstanceType(instanceType)
+		.withMinCount(1).withMaxCount(count)
+		.withKeyName(keyName).withSecurityGroups([secGroup])
+
+	getClient().runInstances(request).reservation.instances.each{
+		instanceIds << it.instanceId
+	}
+	
+	return instanceIds
+}
+
 def getPublicDnsName(instanceId) {
     def publicDnsName
     timeout(5) {
