@@ -136,7 +136,7 @@ def getPublicDnsNames(instanceIds) {
 				}
 			}
 			states.each{
-				if (state.code == 0) {
+				if (it.code == 0) {
 					sleep(time: 5)
 					return false
 				}
