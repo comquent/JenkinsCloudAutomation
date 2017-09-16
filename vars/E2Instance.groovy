@@ -20,8 +20,10 @@ def listInstances(credential) {
 		DescribeInstancesRequest request = new DescribeInstancesRequest()
 		
 		DescribeInstancesResult result = client.describeInstances(request)
-		result.reservations.each{	
-			echo 'bla'
+		result.reservations.each{
+			instances.each{
+				echo instanceId
+			}
 		}
 	}
 }
