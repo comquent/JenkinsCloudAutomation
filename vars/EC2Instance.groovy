@@ -15,7 +15,7 @@ def setCredential(value) {
 	credential = value
 }
 
-def setImageId(value) {}
+def setImageId(value) {
 	imageId = value
 }
 
