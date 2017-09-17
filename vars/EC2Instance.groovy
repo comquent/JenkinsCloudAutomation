@@ -150,7 +150,7 @@ def terminateInstance(instanceId) {
 }
 
 def waitInstances(instanceIds, state) {
-    timeout(5) {
+    timeout(3) {
         waitUntil {
 			def states = []
 			DescribeInstancesRequest request = new DescribeInstancesRequest()
@@ -176,4 +176,8 @@ def waitInstances(instanceIds, state) {
 		}
 	}
 
+}
+
+def waitForRunning(ids) {
+	waitInstances(ids, 16)
 }
