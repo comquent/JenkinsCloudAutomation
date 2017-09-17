@@ -68,6 +68,8 @@ def getClient() {
 	}
 }
 
+// TODO: return ids
+
 def listInstances() {
 	DescribeInstancesRequest request = new DescribeInstancesRequest()
 	DescribeInstancesResult result = getClient().describeInstances(request)
@@ -78,17 +80,7 @@ def listInstances() {
 	}
 }
 
-def launchEC2Instance() {
-	RunInstancesRequest request = new RunInstancesRequest()
-	request.withImageId(imageId).withInstanceType(instanceType)
-		.withMinCount(1).withMaxCount(1)
-		.withKeyName(keyName).withSecurityGroups([secGroup])
-
-	RunInstancesResult result = getClient().runInstances(request)
-	return result.reservation.instances.first().instanceId
-}
-
-def launchEC2Instances(count) {
+def createEC2Instances(count) {
 	def instanceIds = []
 	RunInstancesRequest request = new RunInstancesRequest()
 	request.withImageId(imageId).withInstanceType(instanceType)
@@ -97,30 +89,13 @@ def launchEC2Instances(count) {
 
 	getClient().runInstances(request).reservation.instances.each{
 		instanceIds << it.instanceId
-	}
-	
+	}	
 	return instanceIds
 }
 
-def getPublicDnsName(instanceId) {
-    def publicDnsName
-    timeout(5) {
-        waitUntil {
-			DescribeInstancesRequest request = new DescribeInstancesRequest()
-			request.setInstanceIds([instanceId])
-			DescribeInstancesResult result = getClient().describeInstances(request)
-			instance = result.reservations.first().instances.first() 
-			publicDnsName = instance.publicDnsName
-			state = instance.state
-            echo "... State: ${state.name} (${state.code})"
-			if (state.code == 16) {
-                return true
-			}
-			sleep(time: 5)
-			return false
-		}
-	}
-	return publicDnsName
+def createSingleEC2Instance() {
+	ids = createEC2Instances(1)
+	return ids.first()
 }
 
 def getPublicDnsNames(instanceIds) {
@@ -158,12 +133,8 @@ def getPublicDnsNames(instanceIds) {
 	return publicDnsNames
 }
 
-def terminateInstance(instanceId) {
-    TerminateInstancesRequest request = new TerminateInstancesRequest([instanceId])
-    TerminateInstancesResult result = getClient().terminateInstances(request)	
-    result.terminatingInstances.each{
-		echo "Terminating instance ID ${it.instanceId} has been triggered"
-	}
+def getPublicDnsName(instanceId) {
+	return getPublicDnsNames([instanceId]).first()
 }
 
 def terminateInstances(instanceIds) {
@@ -172,6 +143,10 @@ def terminateInstances(instanceIds) {
     result.terminatingInstances.each{
 		echo "Terminating instance ID ${it.instanceId} has been triggered"
 	}
+}
+
+def terminateInstance(instanceId) {
+	terminateInstances([instanceId])
 }
 
 def waitInstances(instanceIds, state) {
