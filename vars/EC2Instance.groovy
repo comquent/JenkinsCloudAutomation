@@ -117,8 +117,12 @@ def getPublicDnsName(instanceId) {
 
 def terminateInstances(instanceIds) {
     TerminateInstancesRequest request = new TerminateInstancesRequest(instanceIds)
-    TerminateInstancesResult result = getClient().terminateInstances(request)	
-	println "Terminating instance has been triggered, ids = '${result.terminatingInstances}'"
+    TerminateInstancesResult result = getClient().terminateInstances(request)
+	def terminateIds = []
+	result.terminatingInstances.each{
+		terminateIds << it.instanceId
+	}
+	println "Terminating instance has been triggered, ids = '${terminateIds}'"
 }
 
 def terminateInstance(instanceId) {
