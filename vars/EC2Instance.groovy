@@ -100,34 +100,12 @@ def createSingleEC2Instance() {
 
 def getPublicDnsNames(instanceIds) {
     def publicDnsNames = []
-    timeout(5) {
-        waitUntil {
-			def states = []
-			DescribeInstancesRequest request = new DescribeInstancesRequest()
-			request.setInstanceIds(instanceIds)
-			DescribeInstancesResult result = getClient().describeInstances(request)
-			result.reservations.each{
-				it.instances.each{
-					echo "... State: ${it.state.name} (${it.state.code})"
-					states << it.state
-				}
-			}
-			sum_state = 16
-			states.each{
-				if (it.code == 0) {
-					sum_state = 0
-				}
-			}
-			if(sum_state == 16) {
-				result.reservations.each{
-					it.instances.each{
-						publicDnsNames << it.publicDnsName
-					}
-				}
-				return true
-			}
-			sleep(time: 5)
-			return false
+	DescribeInstancesRequest request = new DescribeInstancesRequest()
+	request.setInstanceIds(instanceIds)
+	DescribeInstancesResult result = getClient().describeInstances(request)
+	result.reservations.each{
+		it.instances.each{
+			publicDnsNames << it.publicDnsName
 		}
 	}
 	return publicDnsNames
@@ -149,7 +127,7 @@ def terminateInstance(instanceId) {
 	terminateInstances([instanceId])
 }
 
-def waitInstances(instanceIds, state) {
+def waitForState(instanceIds, state) {
     timeout(3) {
         waitUntil {
 			def states = []
@@ -178,6 +156,6 @@ def waitInstances(instanceIds, state) {
 
 }
 
-def waitForRunning(ids) {
+def waitForState(ids) {
 	waitInstances(ids, 16)
 }
