@@ -136,11 +136,12 @@ def waitForState(instanceIds, state) {
 			DescribeInstancesResult result = getClient().describeInstances(request)
 			result.reservations.each{
 				it.instances.each{
-					echo "... State: ${it.state.name} (${it.state.code})"
+//					echo "... State: ${it.state.name} (${it.state.code})"
 					states << it.state
 				}
 			}
 			sum_state = state
+			println states
 			states.each{
 				if (it.code != state) {
 					sum_state = it.code
