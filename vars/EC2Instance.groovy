@@ -169,7 +169,7 @@ def call(count = 1, body) {
 	println count
 	ids = createEC2Instances(count)
 	waitForRunning(ids)
-	addresses = getPublicDnsNames(ids)
+	body.dnsNames = getPublicDnsNames(ids)
 
 	body()
 	terminateInstances(ids)
