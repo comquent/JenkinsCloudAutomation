@@ -160,13 +160,13 @@ def waitForRunning(ids) {
 	waitForState(ids, 16)
 }
 
-def call(params = null, body) {
+def call(count = 1, body) {
 	def config = [:]
 	body.resolveStrategy = Closure.DELEGATE_FIRST
 	body.delegate = config
 	
 	echo "start closure"
-	println params
+	println count
 	body()
 	echo "finish closure"
 }
