@@ -165,13 +165,15 @@ def call(count = 1, body) {
 	body.resolveStrategy = Closure.DELEGATE_FIRST
 	body.delegate = config
 	
-	echo "start closure"
-	println count
+	echo "*** start creation instances ***"
 	ids = createEC2Instances(count)
+	println ids
 	waitForRunning(ids)
+	echo "*** creation instances done ***"
 	body.dnsNames = getPublicDnsNames(ids)
 
 	body()
+	echo "*** start termination instances ***"
 	terminateInstances(ids)
-	echo "finish closure"
+	echo "*** termination has been triggered ***"
 }
