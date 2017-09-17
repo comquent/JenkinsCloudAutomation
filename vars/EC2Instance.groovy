@@ -156,6 +156,6 @@ def waitForState(instanceIds, state) {
 
 }
 
-def waitForState(ids) {
+def waitForRunning(ids) {
 	waitInstances(ids, 16)
 }
