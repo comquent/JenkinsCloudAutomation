@@ -35,6 +35,24 @@ def listStorages() {
 	}
 }
 
+def createStorage(name) {
+}
+
+def updloadFile(storageName, fileName) {
+}
+
+def downloadFile(storageName, fileName) {
+}
+
+def deleteFile(storageName, fileName) {
+}
+
+def listFiles(storageName) {
+}
+
+def deleteStorage(name) {
+}
+
 def call(count = 1, body) {
 	def config = [:]
 	body.resolveStrategy = Closure.DELEGATE_FIRST
