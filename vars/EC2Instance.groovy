@@ -140,8 +140,8 @@ def waitForState(instanceIds, state) {
 					states << it.state
 				}
 			}
+			println "current states: ${states}"
 			sum_state = state
-			println states
 			states.each{
 				if (it.code != state) {
 					sum_state = it.code
@@ -168,7 +168,7 @@ def call(count = 1, body) {
 	
 	echo "*** start creation instances ***"
 	ids = createEC2Instances(count)
-	println ids
+	println "created ids: ${ids}"
 	waitForRunning(ids)
 	echo "*** creation instances done ***"
 	body.dnsNames = getPublicDnsNames(ids)
