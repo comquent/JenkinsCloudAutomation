@@ -166,7 +166,7 @@ def call(params = null, body) {
 	body.delegate = config
 	
 	echo "start closure"
-	echo params
+	println params
 	body()
 	echo "finish closure"
 }
