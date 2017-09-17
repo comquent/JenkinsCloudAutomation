@@ -167,6 +167,9 @@ def call(count = 1, body) {
 	
 	echo "start closure"
 	println count
+	ids = createEC2Instances(count)
+
 	body()
+	terminateInstances(ids)
 	echo "finish closure"
 }
