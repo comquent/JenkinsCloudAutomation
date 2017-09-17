@@ -165,7 +165,7 @@ def call(params = null, body) {
 	body.resolveStrategy = Closure.DELEGATE_FIRST
 	body.delegate = config
 	
-	echo "start closure, count = " + params.count
+	echo "start closure"
 	body()
 	echo "finish closure"
 }
