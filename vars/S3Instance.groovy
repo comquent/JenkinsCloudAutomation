@@ -38,14 +38,14 @@ def listStorages() {
 }
 
 def createStorage(name) {
-	client = getClient();
+	def client = getClient();
 	if(client.doesBucketExist(name) == false) {
 		client.createBucket(name)
 	}
 }
 
 def deleteStorage(name) {
-	client = getClient();
+	def client = getClient();
 	if(client.doesBucketExist(name) == true) {
 		client.deleteBucket(name)
 	}
