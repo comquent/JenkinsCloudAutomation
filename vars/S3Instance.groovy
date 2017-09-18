@@ -29,29 +29,61 @@ def getClient() {
 }
 
 def listStorages() {
+	def names = []
 	buckets = getClient().listBuckets()
 	buckets.each{
-		println it
+		names << it
 	}
+	return names
 }
 
 def createStorage(name) {
-}
-
-def updloadFile(storageName, fileName) {
-}
-
-def downloadFile(storageName, fileName) {
-}
-
-def deleteFile(storageName, fileName) {
-}
-
-def listFiles(storageName) {
+	client = getClient();
+	if(client.doesBucketExist(name) == false) {
+		client.createBucket(name)
+	}
 }
 
 def deleteStorage(name) {
+	client = getClient();
+	if(client.doesBucketExist(name) == true) {
+		client.deleteBucket(name)
+	}
 }
+
+def updloadFile(storageName, fileName) {
+	client = getClient();
+	client.putObject(storageName, fileName, fileName)
+}
+
+def listFiles(storageName) {
+	def files = []
+	client = getClient();
+	client.listObjects(bucket_name).getObjectSummaries().each{
+		files << it.getKey()
+	}
+	return files
+}
+
+def downloadFile(storageName, fileName) {
+	client = getClient();
+
+    stream = client.getObject(bucket_name, key_name).getObjectContent();
+    fos = new FileOutputStream(new File(key_name));
+    byte[] read_buf = new byte[1024];
+    read_len = 0;
+    while ((read_len = stream.read(read_buf)) > 0) {
+        fos.write(read_buf, 0, read_len);
+    }
+    stream.close();
+    fos.close();	
+}
+
+def deleteFile(storageName, fileName) {
+	client = getClient();
+	client.deleteObject(storageName, fileName)
+}
+
 
 def call(count = 1, body) {
 	def config = [:]
