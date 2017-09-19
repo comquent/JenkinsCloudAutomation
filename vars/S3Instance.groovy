@@ -40,8 +40,9 @@ def listStorages() {
 def createStorage(name) {
 	def client = getClient();
 	if(client.doesBucketExist(name) == false) {
-		client.createBucket(name)
+		return client.createBucket(name)
 	}
+	return "storage exists"
 }
 
 def deleteStorage(name) {
