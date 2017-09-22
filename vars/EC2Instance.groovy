@@ -158,7 +158,8 @@ def terminateInstance(instanceId) {
 def terminateByType(count, type_value) {
 	def instanceIds = []
 	DescribeInstancesRequest request = new DescribeInstancesRequest()
-	request.withFilters(new Filter().withName("tag:CC_TYPE").withValues(type_value))
+	request.withFilters([new Filter().withName("tag:CC_TYPE").withValues(type_value), 
+			    new Filter().withName("instance-state-name").withValues("running")])
 	
 	DescribeInstancesResult result = getClient().describeInstances(request)
 	result.reservations.each{
