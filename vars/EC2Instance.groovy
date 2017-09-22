@@ -161,8 +161,9 @@ def terminateByType(count, type_value) {
 	
 	DescribeInstancesResult result = getClient().describeInstances(request)
 	result.reservations.each{
-	it.instances.each{
-		instanceIds << it.instanceId
+		it.instances.each{
+			instanceIds << it.instanceId
+		}
 	}
 		
 	terminateInstances(instanceIds)
