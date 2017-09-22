@@ -98,6 +98,7 @@ def createEC2Instances(count) {
 	return instanceIds
 }
 
+// create instance with TAG "CC_TYPE" --- special for CC
 def createByType(count, type_value) {
 	def instanceIds = []
 	RunInstancesRequest run_request = new RunInstancesRequest()
@@ -151,6 +152,20 @@ def terminateInstances(instanceIds) {
 
 def terminateInstance(instanceId) {
 	terminateInstances([instanceId])
+}
+
+def terminateByType(count, type_value) {
+	def instanceIds = []
+	DescribeInstancesRequest request = new DescribeInstancesRequest()
+	request.withFilters(new Filter().withName("CC_TYPE").withValues(type_value))
+	
+	DescribeInstancesResult result = getClient().describeInstances(request)
+	result.reservations.each{
+	it.instances.each{
+		instanceIds << it.instanceId
+	}
+		
+	terminateInstances(instanceIds)
 }
 
 def waitForState(instanceIds, state) {
