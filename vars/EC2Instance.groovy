@@ -98,7 +98,7 @@ def createEC2Instances(count) {
 	return instanceIds
 }
 
-def createByType(count, type_name) {
+def createByType(count, type_value) {
 	def instanceIds = []
 	RunInstancesRequest run_request = new RunInstancesRequest()
 	run_request.withImageId(imageId).withInstanceType(instanceType)
@@ -110,7 +110,7 @@ def createByType(count, type_name) {
 	}
 	
 	// add the tag
-	Tag tag = new Tag().withKey("Name").withValue(type_name)
+	Tag tag = new Tag().withKey("CC_TYPE").withValue(type_value)
 	CreateTagsRequest tag_request = new CreateTagsRequest().withTags(tag).withResources(instanceIds)
 	CreateTagsResult tag_response = getClient().createTags(tag_request)
 	
