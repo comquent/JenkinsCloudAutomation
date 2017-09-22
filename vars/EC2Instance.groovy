@@ -166,7 +166,10 @@ def terminateByType(count, type_value) {
 			instanceIds << it.instanceId
 		}
 	}
-		
+	if(instanceIds.size() > count) {
+		println "terminate " + count + " from " + instanceIds.size() + " instances"
+		instanceIds = instanceIds[0..<count]
+	}
 	terminateInstances(instanceIds)
 }
 
