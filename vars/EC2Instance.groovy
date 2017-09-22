@@ -7,6 +7,11 @@ import com.amazonaws.services.ec2.model.DescribeInstancesRequest
 import com.amazonaws.services.ec2.model.DescribeInstancesResult
 import com.amazonaws.services.ec2.model.RunInstancesRequest
 import com.amazonaws.services.ec2.model.RunInstancesResult
+
+import com.amazonaws.services.ec2.model.Tag;
+import com.amazonaws.services.ec2.model.CreateTagsRequest;
+import com.amazonaws.services.ec2.model.CreateTagsResult;
+
 import com.amazonaws.services.ec2.model.TerminateInstancesRequest
 import com.amazonaws.services.ec2.model.TerminateInstancesResult
 
@@ -90,6 +95,25 @@ def createEC2Instances(count) {
 	getClient().runInstances(request).reservation.instances.each{
 		instanceIds << it.instanceId
 	}	
+	return instanceIds
+}
+
+def createByType(count, type_name) {
+	def instanceIds = []
+	RunInstancesRequest run_request = new RunInstancesRequest()
+	run_request.withImageId(imageId).withInstanceType(instanceType)
+		.withMinCount(1).withMaxCount(count)
+		.withKeyName(keyName).withSecurityGroups([secGroup])
+
+	getClient().runInstances(run_request).reservation.instances.each{
+		instanceIds << it.instanceId
+	}
+	
+	// add the tag
+	Tag tag = new Tag().withKey("Name").withValue(name)
+	CreateCreateTagsRequest tag_request = new CreateTagsRequest().withTags(tag).withResources(instanceIds)
+	CreateTagsResult tag_response = ec2.createTags(tag_request)
+	
 	return instanceIds
 }
 
