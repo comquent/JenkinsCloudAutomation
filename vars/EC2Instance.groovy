@@ -112,7 +112,7 @@ def createByType(count, type_name) {
 	// add the tag
 	Tag tag = new Tag().withKey("Name").withValue(type_name)
 	CreateTagsRequest tag_request = new CreateTagsRequest().withTags(tag).withResources(instanceIds)
-	CreateTagsResult tag_response = ec2.createTags(tag_request)
+	CreateTagsResult tag_response = getClient().createTags(tag_request)
 	
 	return instanceIds
 }
