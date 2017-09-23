@@ -52,9 +52,9 @@ def deleteStorage(name) {
 	}
 }
 
-def updloadFile(storageName, fileName) {
+def updloadFile(storageName, path, fileName) {
 	client = getClient();
-	client.putObject(storageName, fileName, fileName)
+	client.putObject(storageName, fileName, path)
 }
 
 def listFiles(storageName) {
