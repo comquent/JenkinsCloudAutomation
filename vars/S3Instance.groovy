@@ -28,9 +28,11 @@ def getClient() {
 	}
 }
 
+def client = getClient()
+
 def listStorages() {
 	def names = []
-	buckets = getClient().listBuckets()
+	buckets = client.listBuckets()
 	buckets.each{
 		names << it
 	}
@@ -38,7 +40,6 @@ def listStorages() {
 }
 
 def createStorage(name) {
-	def client = getClient();
 //	if(client.doesBucketExist(name) == false) {
 		return client.createBucket(name)
 //	}
@@ -46,20 +47,17 @@ def createStorage(name) {
 }
 
 def deleteStorage(name) {
-	def client = getClient();
 	if(client.doesBucketExist(name) == true) {
 		client.deleteBucket(name)
 	}
 }
 
 def updloadFile(storageName, path, fileName) {
-	client = getClient();
 	client.putObject(storageName, fileName, path)
 }
 
 def listFiles(storageName) {
 	def files = []
-	client = getClient();
 	client.listObjects(bucket_name).getObjectSummaries().each{
 		files << it.getKey()
 	}
@@ -67,8 +65,6 @@ def listFiles(storageName) {
 }
 
 def downloadFile(storageName, fileName) {
-	client = getClient();
-
     stream = client.getObject(bucket_name, key_name).getObjectContent();
     fos = new FileOutputStream(new File(key_name));
     byte[] read_buf = new byte[1024];
@@ -81,7 +77,6 @@ def downloadFile(storageName, fileName) {
 }
 
 def deleteFile(storageName, fileName) {
-	client = getClient();
 	client.deleteObject(storageName, fileName)
 }
 
@@ -90,5 +85,4 @@ def call(count = 1, body) {
 	def config = [:]
 	body.resolveStrategy = Closure.DELEGATE_FIRST
 	body.delegate = config
-	
 }
