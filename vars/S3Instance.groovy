@@ -80,6 +80,13 @@ def deleteFile(storageName, fileName) {
 	client.deleteObject(storageName, fileName)
 }
 
+def emptyStorage(storageName) {
+	client.listObjects(bucket_name).getObjectSummaries().each{
+		filename = it.getKey()
+		println "Delete file name=" + filename
+		client.deleteObject(storageName, fileName)
+	}
+}	
 
 def call(count = 1, body) {
 	def config = [:]
