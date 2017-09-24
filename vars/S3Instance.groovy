@@ -82,9 +82,8 @@ def deleteFile(storageName, fileName) {
 
 def emptyStorage(storageName) {
 	client.listObjects(storageName).getObjectSummaries().each{
-		def filename = it.getKey()
-		println "Delete file name=" + filename
-		client.deleteObject(storageName, fileName)
+		println "Delete file name=" + it.getKey()
+		client.deleteObject(storageName, it.getKey())
 	}
 }	
 
